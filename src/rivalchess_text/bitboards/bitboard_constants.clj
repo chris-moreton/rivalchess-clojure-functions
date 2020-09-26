@@ -1,0 +1,32 @@
+(ns rivalchess-text.bitboards.bitboard_constants
+  (:use [rivalchess-text.bitboards.util.bitboard_utils :refer :all]))
+
+(def RANK_1 (setBits [0 1 2 3 4 5 6 7]))
+(def RANK_2 (bit-shift-left RANK_1 8))
+(def RANK_3 (bit-shift-left RANK_2 8))
+(def RANK_4 (bit-shift-left RANK_3 8))
+(def RANK_5 (bit-shift-left RANK_4 8))
+(def RANK_6 (bit-shift-left RANK_5 8))
+(def RANK_7 (bit-shift-left RANK_6 8))
+(def RANK_8 (bit-shift-left RANK_7 8))
+
+(def FILE_A (everyEighthBitFrom 63))
+(def FILE_B (everyEighthBitFrom 62))
+(def FILE_C (everyEighthBitFrom 61))
+(def FILE_D (everyEighthBitFrom 60))
+(def FILE_E (everyEighthBitFrom 59))
+(def FILE_F (everyEighthBitFrom 58))
+(def FILE_G (everyEighthBitFrom 57))
+(def FILE_H (everyEighthBitFrom 56))
+
+(def MIDDLE_FILES_8_BIT (setBits [3,4]))
+(def NONMID_FILES_8_BIT (setBits [0,1,2,5,6,7]))
+
+(def F1G1 (setBits [1 2]))
+(def G1H1 (setBits [0 1]))
+(def A1B1 (setBits [6 7]))
+(def B1C1 (setBits [6 5]))
+(def F8G8 (setBits [57 58]))
+(def G8H8 (setBits [56 57]))
+(def A8B8 (setBits [62 63]))
+(def B8C8 (setBits [61 62]))
