@@ -1,21 +1,15 @@
 (ns rivalchess-text.model.board
   (:require [clojure.string :as str]))
 
-; example FEN: "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b - g3 5 56"
-
-(defn bitboards [fenBoardPart]
-  (:whitePawns 0 :whiteKnights 0 :whiteBishops 0 :whiteQueens 0 :whiteKing 0 :whiteRooks 0
-    :blackPawns 0 :blackKnights 0 :blackBishops 0 :blackQueens 0 :blackKing 0 :blackRooks 0
-    :enPassantSquare 0 ))
-
 (defn isFileNumber [c] (some #(= c %) (seq "12345678")))
 
 (defn rankBits [fenRankChars pieceChar]
-  (loop [rankChars (seq fenRankChars)
+  (loop [fenRankChars (seq fenRankChars)
          result []]
-    (if (= [] rankChars) result
-      (recur (into [] (rest rankChars))
-             (let [c (first rankChars)]
+    (if (= [] fenRankChars)
+      result
+      (recur (into [] (rest fenRankChars))
+             (let [c (first fenRankChars)]
                (concat result
                        (if (isFileNumber c)
                          (repeat (- (int c) 48) 0)
@@ -25,4 +19,45 @@
 
 (defn fenRanks [fenBoardPart] (str/split fenBoardPart #"/"))
 
-(defn board [fen] (:bitboards (bitboards fen) :mover :white :castlePrivs 0 :halfMoves 0 :moveHistory []))
+(defn boardBits [fenRanks pieceChar]
+  (loop [fenRanks fenRanks
+         result []]
+    (if (= [] fenRanks)
+      (into [] result)
+      (recur (rest fenRanks) (concat result (rankBits (first fenRanks) pieceChar)))
+      )
+    )
+  )
+
+(defn bitArrayToDecimal [bits]
+  (loop [bits bits
+         bitnum 63
+         result 0]
+    (if (= bitnum -1)
+      result
+      (recur (rest bits) (dec bitnum) (+ result (if (= (first bits) 1) (Math/pow 2 bitnum) 0)))
+      ))
+  )
+
+(defn pieceBitboard [fenRanks pieceChar]
+  (bitArrayToDecimal (boardBits fenRanks pieceChar)))
+
+(defn pieceBitboards [fen]
+  (let [fenRanks (fenRanks (fenBoardPart fen))]
+     {:whitePawns (pieceBitboard fenRanks \P)
+      :whiteKnights (pieceBitboard fenRanks \N)
+      :whiteBishops (pieceBitboard fenRanks \B)
+      :whiteQueens (pieceBitboard fenRanks \Q)
+      :whiteKing (pieceBitboard fenRanks \K)
+      :whiteRooks (pieceBitboard fenRanks \R)
+      :blackPawns (pieceBitboard fenRanks \p)
+      :blackKnights (pieceBitboard fenRanks \n)
+      :blackBishops (pieceBitboard fenRanks \b)
+      :blackQueens (pieceBitboard fenRanks \q)
+      :blackKing (pieceBitboard fenRanks \k)
+      :blackRooks (pieceBitboard fenRanks \r)
+      }))
+
+(defn board [fen] (:bitboards (pieceBitboards fen) :mover :white :enPassantSquare 0 :castlePrivs 0 :halfMoves 0 :moveHistory []))
+
+
