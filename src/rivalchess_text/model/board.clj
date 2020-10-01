@@ -69,13 +69,16 @@
       :blackRooks (pieceBitboard fenRanks \r)
       }))
 
+(defn fenPart [fen index]
+  (nth (str/split fen #" ") index))
+
 (defn mover [fen]
-  (let [mover (first (rest (str/split fen #" ")))]
+  (let [mover (fenPart fen 1)]
     (if (= mover "w") :white :black)
     ))
 
 (defn enpassantFenPart [fen]
-  (let [enpassantSquare (first (rest (rest (rest (str/split fen #" ")))))]
+  (let [enpassantSquare (fenPart fen 3)]
     enpassantSquare
     ))
 
