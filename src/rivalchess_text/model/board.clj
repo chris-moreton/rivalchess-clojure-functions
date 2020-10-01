@@ -39,6 +39,17 @@
       ))
   )
 
+(defn bitRefFromAlgebraicSquareRef [algebraic]
+  (let [s (seq algebraic)
+        fileNum (- (int (first s)) 97)
+        rankNum (- (int (first (rest s))) 49)]
+    (+ (* rankNum 8) (- 7 fileNum))
+    )
+  )
+
+(defn enPassantBitRef [enPassantFenPart]
+  (if (= enPassantFenPart "-") -1 (bitRefFromAlgebraicSquareRef enPassantFenPart)))
+
 (defn pieceBitboard [fenRanks pieceChar]
   (bitArrayToDecimal (boardBits fenRanks pieceChar)))
 
@@ -58,6 +69,23 @@
       :blackRooks (pieceBitboard fenRanks \r)
       }))
 
-(defn board [fen] (:bitboards (pieceBitboards fen) :mover :white :enPassantSquare 0 :castlePrivs 0 :halfMoves 0 :moveHistory []))
+(defn mover [fen]
+  (let [mover (first (rest (str/split fen #" ")))]
+    (if (= mover "w") :white :black)
+    ))
+
+(defn enpassantFenPart [fen]
+  (let [enpassantSquare (first (rest (rest (rest (str/split fen #" ")))))]
+    enpassantSquare
+    ))
+
+(defn board [fen] {
+                   :bitboards (pieceBitboards fen)
+                   :mover (mover fen)
+                   :enPassantSquare (enPassantBitRef (enpassantFenPart fen))
+                   :castlePrivs 0
+                   :halfMoves 0
+                   :moveHistory []
+                   })
 
 

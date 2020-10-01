@@ -35,22 +35,38 @@
     )
   ))
 
-(deftest pieceBitboardsFromFen-test (testing "Test conversion from FEN rank string into bitboad list"
-     (let [fen "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b - g3 5 56"
-           bitboards (pieceBitboards fen)]
-       (is (= 5.404360704E9 (:whitePawns bitboards)))
-       (is (= 2048.0 (:whiteKnights bitboards)))
-       (is (= 1048576.0 (:whiteKing bitboards)))
-       (is (= 262144.0 (:whiteBishops bitboards)))
-       (is (= 0 (:whiteQueens bitboards)))
-       (is (= 6.7108864E7 (:whiteRooks bitboards)))
-       (is (= 6.34693087133696E14 (:blackPawns bitboards)))
-       (is (= 0 (:blackKnights bitboards)))
-       (is (= 1.44115188075855872E17 (:blackKing bitboards)))
-       (is (= 0 (:blackBishops bitboards)))
-       (is (= 8.796093022208E12 (:blackQueens bitboards)))
-       (is (= 16384.0 (:blackRooks bitboards)))
-       )
-     ))
+(deftest pieceBitboardFromFen-test (testing "Convert algebraic square to bit reference"
+                                     (is (= 63 (bitRefFromAlgebraicSquareRef "a8")))
+                                     (is (= 0 (bitRefFromAlgebraicSquareRef "h1")))
+                                     (is (= 1 (bitRefFromAlgebraicSquareRef "g1")))
+                                     )
+                                     )
+
+(deftest boardFromFen-test (testing "Test conversion from FEN rank string into board data"
+      (let [fen "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b - g3 5 56"
+            board (board fen)
+            bitboards (:bitboards board)]
+        (is (= 5.404360704E9 (:whitePawns bitboards)))
+        (is (= 2048.0 (:whiteKnights bitboards)))
+        (is (= 1048576.0 (:whiteKing bitboards)))
+        (is (= 262144.0 (:whiteBishops bitboards)))
+        (is (= 0 (:whiteQueens bitboards)))
+        (is (= 6.7108864E7 (:whiteRooks bitboards)))
+        (is (= 6.34693087133696E14 (:blackPawns bitboards)))
+        (is (= 0 (:blackKnights bitboards)))
+        (is (= 1.44115188075855872E17 (:blackKing bitboards)))
+        (is (= 0 (:blackBishops bitboards)))
+        (is (= 8.796093022208E12 (:blackQueens bitboards)))
+        (is (= 16384.0 (:blackRooks bitboards)))
+        (is (= :black (:mover board)))
+        (is (= 17 (:enPassantSquare board)))
+        )
+      (let [fen "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 w - - 5 56"
+            board (board fen)
+            bitboards (:bitboards board)]
+        (is (= :white (:mover board)))
+        (is (= -1 (:enPassantSquare board)))
+        )
+      ))
 
 
