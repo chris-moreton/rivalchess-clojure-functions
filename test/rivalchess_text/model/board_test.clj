@@ -66,6 +66,7 @@
             bitboards (:bitboards board)]
         (is (= :white (:mover board)))
         (is (= -1 (:enPassantSquare board)))
+        (is (= 5 (:halfMoves board)))
         )
       ))
 

@@ -87,7 +87,7 @@
                    :mover (mover fen)
                    :enPassantSquare (enPassantBitRef (enpassantFenPart fen))
                    :castlePrivs 0
-                   :halfMoves 0
+                   :halfMoves (Integer/parseInt (fenPart fen 4))
                    :moveHistory []
                    })
 
