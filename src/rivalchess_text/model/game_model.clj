@@ -1,4 +1,4 @@
-(ns rivalchess-text.model.board
+(ns rivalchess-text.model.game_model
   (:require [clojure.string :as str]))
 
 (defn isFileNumber [c] (some #(= c %) (seq "12345678")))
@@ -82,13 +82,28 @@
     enpassantSquare
     ))
 
-(defn board [fen] {
-                   :bitboards (pieceBitboards fen)
-                   :mover (mover fen)
-                   :enPassantSquare (enPassantBitRef (enpassantFenPart fen))
-                   :castlePrivs 0
-                   :halfMoves (Integer/parseInt (fenPart fen 4))
-                   :moveHistory []
-                   })
+(defn castlePrivs [fen]
+  (loop [castlePart (seq (fenPart fen 2))
+        result {:whiteKing false :blackKing false :whiteQueen false :blackQueen false}]
+    (if (or (= [\-] castlePart) (= [] castlePart))
+    (into (sorted-map) result)
+    (case (first castlePart)
+      \K (recur (rest castlePart) (merge result {:whiteKing true}))
+      \k (recur (rest castlePart) (merge result {:blackKing true}))
+      \Q (recur (rest castlePart) (merge result {:whiteQueen true}))
+      \q (recur (rest castlePart) (merge result {:blackQueen true}))
+      ))
+    )
+
+  )
+
+(defn gameModel [fen] {
+     :bitboards (pieceBitboards fen)
+     :mover (mover fen)
+     :enPassantSquare (enPassantBitRef (enpassantFenPart fen))
+     :castlePrivs (castlePrivs fen)
+     :halfMoves (Integer/parseInt (fenPart fen 4))
+     :moveHistory []
+     })
 
 

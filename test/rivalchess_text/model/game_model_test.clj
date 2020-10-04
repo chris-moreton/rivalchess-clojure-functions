@@ -1,6 +1,6 @@
-(ns rivalchess-text.model.board-test
+(ns rivalchess-text.model.game_model-test
   (:require [clojure.test :refer :all]
-            [rivalchess-text.model.board :refer :all]))
+            [rivalchess-text.model.game_model :refer :all]))
 
 (deftest fenBoardPart-test
   (testing "Extract board part from FEN"
@@ -23,14 +23,14 @@
    ))
 
 (deftest boardBits-test (testing "Test conversion from FEN string into char array of 64 0s and 1s for a given piece"
-  (let [fen "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b - g3 5 56"]
+  (let [fen "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b kQKq g3 5 56"]
     (is (= [0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
            (boardBits (fenRanks (fenBoardPart fen)) \p)))
     )
 ))
 
 (deftest pieceBitboardFromFen-test (testing "Test conversion from FEN rank string into char array of eight 0s and 1s"
-  (let [fen "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b - g3 5 56"]
+  (let [fen "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b Q g3 5 56"]
     (is (= 6.34693087133696E14 (pieceBitboard (fenRanks (fenBoardPart fen)) \p)))
     )
   ))
@@ -43,8 +43,8 @@
                                      )
 
 (deftest boardFromFen-test (testing "Test conversion from FEN rank string into board data"
-      (let [fen "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b - g3 5 56"
-            board (board fen)
+      (let [fen "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b q g3 5 56"
+            board (gameModel fen)
             bitboards (:bitboards board)]
         (is (= 5.404360704E9 (:whitePawns bitboards)))
         (is (= 2048.0 (:whiteKnights bitboards)))
@@ -61,12 +61,13 @@
         (is (= :black (:mover board)))
         (is (= 17 (:enPassantSquare board)))
         )
-      (let [fen "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 w - - 5 56"
-            board (board fen)
+      (let [fen "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 w kQ - 5 56"
+            board (gameModel fen)
             bitboards (:bitboards board)]
         (is (= :white (:mover board)))
         (is (= -1 (:enPassantSquare board)))
         (is (= 5 (:halfMoves board)))
+        (is (= {:blackKing true :blackQueen false :whiteKing false :whiteQueen true} (:castlePrivs board)))
         )
       ))
 
