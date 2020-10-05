@@ -5,7 +5,14 @@
 
 (deftest getPieceBitboardForColour-test
   (testing "Get piece bitboard for colour"
-  (let [gameModel (gameModel "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b kQKq g3 5 56")
+  (let [gameModel (position "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b kQKq g3 5 56")
         bitboards (:bitboards gameModel)]
     (is (= (:blackPawns bitboards) (bitboardForMover gameModel :pawn :black)))
     (is (not= (:whitePawns bitboards) (bitboardForMover gameModel :pawn :black))))))
+
+(deftest bitRefList-test
+  (testing "Get list of set bits in Long"
+    (let [gameModel (position "n5k1/6n1/1n2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b kQKq g3 5 56")
+          bitboards (:bitboards gameModel)]
+      (is (= [46 49 63] (bitRefList (:blackKnights bitboards))))
+      )))

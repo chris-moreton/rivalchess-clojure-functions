@@ -35,8 +35,7 @@
          result 0]
     (if (= bitnum -1)
       result
-      (recur (rest bits) (dec bitnum) (+ result (if (= (first bits) 1) (Math/pow 2 bitnum) 0)))
-      ))
+      (recur (rest bits) (dec bitnum) (+ result (if (= (first bits) 1) (bit-shift-left 1 bitnum) 0)))))
   )
 
 (defn bitRefFromAlgebraicSquareRef [algebraic]
@@ -97,13 +96,16 @@
 
   )
 
-(defn gameModel [fen] {
+(defn position [fen] {
      :bitboards (pieceBitboards fen)
      :mover (mover fen)
      :enPassantSquare (enPassantBitRef (enpassantFenPart fen))
      :castlePrivs (castlePrivs fen)
      :halfMoves (Integer/parseInt (fenPart fen 4))
-     :moveHistory []
+     :moveNumber (Integer/parseInt (fenPart fen 5))
      })
 
-
+(defn game [fen] {
+     :position (position fen)
+     :moves []
+     })

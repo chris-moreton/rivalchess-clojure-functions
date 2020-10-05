@@ -11,4 +11,25 @@
     :pawn (if (= mover :white) :whitePawns :blackPawns))]
     (index (:bitboards gameModel))))
 
+(defn bitRefList [bitboard]
+  (loop [bitboard bitboard
+         result []]
+    (if (= 0 bitboard)
+      result
+      (let [square (Long/numberOfTrailingZeros bitboard)
+            bitMask (bit-shift-left 1 square)]
+        (recur (bit-xor bitboard bitMask) (conj result square))
+      ))))
 
+(defn knightMoves [gameModel]
+
+  )
+;private fun generateKnightMoves() {
+;                                   applyToSquares(knightBitboardForMover) { from ->
+;                                                                           val fromShifted = from shl 16
+;                                                                           applyToSquares(knightMoves[from] and allSquaresExceptFriendlyPieces) { to ->
+;                                                                                                                                                 moves[moveCount++] = (fromShifted or to)
+;                                                                                                                                                 }
+;                                                                           }
+;                                   }
+;

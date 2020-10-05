@@ -44,25 +44,25 @@
 
 (deftest boardFromFen-test (testing "Test conversion from FEN rank string into board data"
       (let [fen "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b q g3 5 56"
-            board (gameModel fen)
+            board (position fen)
             bitboards (:bitboards board)]
-        (is (= 5.404360704E9 (:whitePawns bitboards)))
-        (is (= 2048.0 (:whiteKnights bitboards)))
-        (is (= 1048576.0 (:whiteKing bitboards)))
-        (is (= 262144.0 (:whiteBishops bitboards)))
+        (is (= 5404360704 (:whitePawns bitboards)))
+        (is (= 2048 (:whiteKnights bitboards)))
+        (is (= 1048576 (:whiteKing bitboards)))
+        (is (= 262144 (:whiteBishops bitboards)))
         (is (= 0 (:whiteQueens bitboards)))
-        (is (= 6.7108864E7 (:whiteRooks bitboards)))
-        (is (= 6.34693087133696E14 (:blackPawns bitboards)))
+        (is (= 67108864 (:whiteRooks bitboards)))
+        (is (= 634693087133696 (:blackPawns bitboards)))
         (is (= 0 (:blackKnights bitboards)))
-        (is (= 1.44115188075855872E17 (:blackKing bitboards)))
+        (is (= 144115188075855872 (:blackKing bitboards)))
         (is (= 0 (:blackBishops bitboards)))
-        (is (= 8.796093022208E12 (:blackQueens bitboards)))
-        (is (= 16384.0 (:blackRooks bitboards)))
+        (is (= 8796093022208 (:blackQueens bitboards)))
+        (is (= 16384 (:blackRooks bitboards)))
         (is (= :black (:mover board)))
         (is (= 17 (:enPassantSquare board)))
         )
       (let [fen "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 w kQ - 5 56"
-            board (gameModel fen)
+            board (position fen)
             bitboards (:bitboards board)]
         (is (= :white (:mover board)))
         (is (= -1 (:enPassantSquare board)))
