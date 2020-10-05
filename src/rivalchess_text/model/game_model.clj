@@ -46,6 +46,22 @@
     )
   )
 
+(defn algebraicSquareRefFromBitRef [bitRef]
+  (let [rank (inc (quot bitRef 8))
+        file (- 8 (mod bitRef 8))
+        rankChar (char (+ rank 48))
+        fileChar (char (+ file 96))]
+    (str fileChar rankChar)
+    )
+  )
+
+(defn algebraicMoveFromCompactMove [compactMove]
+  (let [fromSquare (unsigned-bit-shift-right compactMove 16)
+        toSquare (bit-and 63 compactMove)]
+    0
+    )
+  )
+
 (defn enPassantBitRef [enPassantFenPart]
   (if (= enPassantFenPart "-") -1 (bitRefFromAlgebraicSquareRef enPassantFenPart)))
 

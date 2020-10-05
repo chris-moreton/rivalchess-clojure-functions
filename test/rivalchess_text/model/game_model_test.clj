@@ -31,11 +31,18 @@
 
 (deftest pieceBitboardFromFen-test (testing "Test conversion from FEN rank string into char array of eight 0s and 1s"
   (let [fen "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b Q g3 5 56"]
-    (is (= 6.34693087133696E14 (pieceBitboard (fenRanks (fenBoardPart fen)) \p)))
+    (is (= 634693087133696 (pieceBitboard (fenRanks (fenBoardPart fen)) \p)))
     )
   ))
 
-(deftest pieceBitboardFromFen-test (testing "Convert algebraic square to bit reference"
+(deftest algebraicSquareRefFromBitRef-test
+  (testing "Convert a bitRef to an algebraic square"
+    (is (= (algebraicSquareRefFromBitRef 63) "a8"))
+    (is (= (algebraicSquareRefFromBitRef 0) "h1"))
+    (is (= (algebraicSquareRefFromBitRef 7) "a1"))
+   ))
+
+(deftest bitRefFromAlgebraicSquareRef-test (testing "Convert algebraic square to bit reference"
                                      (is (= 63 (bitRefFromAlgebraicSquareRef "a8")))
                                      (is (= 0 (bitRefFromAlgebraicSquareRef "h1")))
                                      (is (= 1 (bitRefFromAlgebraicSquareRef "g1")))
@@ -62,8 +69,7 @@
         (is (= 17 (:enPassantSquare board)))
         )
       (let [fen "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 w kQ - 5 56"
-            board (position fen)
-            bitboards (:bitboards board)]
+            board (position fen)]
         (is (= :white (:mover board)))
         (is (= -1 (:enPassantSquare board)))
         (is (= 5 (:halfMoves board)))
