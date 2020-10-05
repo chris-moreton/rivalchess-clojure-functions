@@ -64,5 +64,5 @@
        (if (= [] fromSquares)
          moves
          (let [fromSquare (first fromSquares)
-               toSquares (and (fromSquare KNIGHT_MOVES) (allSquaresExceptFriendly position))]
-               (recur (rest fromSquares) (movesToSquares fromSquare toSquares)))))))
+               toSquares (bitRefList (bit-and (get KNIGHT_MOVES fromSquare) (allSquaresExceptFriendly position)))]
+               (recur (rest fromSquares) (concat moves (movesToSquares fromSquare toSquares))))))))

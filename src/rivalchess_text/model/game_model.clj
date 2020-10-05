@@ -24,10 +24,7 @@
          result []]
     (if (= [] fenRanks)
       (into [] result)
-      (recur (rest fenRanks) (concat result (rankBits (first fenRanks) pieceChar)))
-      )
-    )
-  )
+      (recur (rest fenRanks) (concat result (rankBits (first fenRanks) pieceChar))))))
 
 (defn bitArrayToDecimal [bits]
   (loop [bits bits

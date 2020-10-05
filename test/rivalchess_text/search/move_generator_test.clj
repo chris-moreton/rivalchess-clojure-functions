@@ -35,3 +35,15 @@
             (+ (bit-shift-left 11 16) 44)
             ] (movesToSquares 11 [22 33 44])))
     ))
+
+(deftest knightMoves-test
+  (testing "Test generating knight moves"
+    (let [position (position "n5k1/6n1/1n2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b kQKq g3 5 56")]
+      (is (= ["a8c7" "b6a4" "b6c4" "b6c8" "b6d5" "b6d7" "g7e8" "g7f5" "g7h5"]
+             (into [] (sort (map algebraicMoveFromCompactMove (knightMoves position))))))
+      )
+    (let [position (position "n5k1/6n1/1n2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 w kQKq g3 5 56")]
+      (is (= ["e2c1" "e2d4" "e2g1" "e2g3"]
+             (into [] (sort (map algebraicMoveFromCompactMove (knightMoves position))))))
+      )
+    ))
