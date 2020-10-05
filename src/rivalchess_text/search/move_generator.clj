@@ -49,16 +49,13 @@
                            (:blackKing bitboards)])))))
 
 (defn movesToSquares [fromSquare toSquares]
-  (loop [toSquares toSquares
+  (let [shiftedFrom (bit-shift-left fromSquare 16)]
+    (loop [toSquares toSquares
          moves []]
     (if (= [] toSquares)
       moves
-      (let [toSquare (first toSquares)
-            shiftedFrom (bit-shift-left fromSquare 16)]
-        (recur (rest toSquares) (conj moves (or shiftedFrom toSquare))))
-      )
-    )
-  )
+      (recur (into [] (rest toSquares)) (conj moves (bit-or shiftedFrom (first toSquares))))
+      ))))
 
 (defn knightMoves [position]
   (let [bitboard (bitboardForMover position :knight)]
@@ -67,21 +64,5 @@
        (if (= [] fromSquares)
          moves
          (let [fromSquare (first fromSquares)
-
                toSquares (and (fromSquare KNIGHT_MOVES) (allSquaresExceptFriendly position))]
-               (recur (rest fromSquares) (movesToSquares fromSquare toSquares))
-           )
-         )
-      )
-    )
-
-  )
-;private fun generateKnightMoves() {
-;                                   applyToSquares(knightBitboardForMover) { from ->
-;                                                                           val fromShifted = from shl 16
-;                                                                           applyToSquares(knightMoves[from] and allSquaresExceptFriendlyPieces) { to ->
-;                                                                                                                                                 moves[moveCount++] = (fromShifted or to)
-;                                                                                                                                                 }
-;                                                                           }
-;                                   }
-;
+               (recur (rest fromSquares) (movesToSquares fromSquare toSquares)))))))

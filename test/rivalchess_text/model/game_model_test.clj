@@ -39,15 +39,18 @@
   (testing "Convert a bitRef to an algebraic square"
     (is (= (algebraicSquareRefFromBitRef 63) "a8"))
     (is (= (algebraicSquareRefFromBitRef 0) "h1"))
-    (is (= (algebraicSquareRefFromBitRef 7) "a1"))
-   ))
+    (is (= (algebraicSquareRefFromBitRef 7) "a1"))))
 
-(deftest bitRefFromAlgebraicSquareRef-test (testing "Convert algebraic square to bit reference"
-                                     (is (= 63 (bitRefFromAlgebraicSquareRef "a8")))
-                                     (is (= 0 (bitRefFromAlgebraicSquareRef "h1")))
-                                     (is (= 1 (bitRefFromAlgebraicSquareRef "g1")))
-                                     )
-                                     )
+(deftest bitRefFromAlgebraicSquareRef-test
+  (testing "Convert algebraic square to bit reference"
+     (is (= 63 (bitRefFromAlgebraicSquareRef "a8")))
+     (is (= 0 (bitRefFromAlgebraicSquareRef "h1")))
+     (is (= 1 (bitRefFromAlgebraicSquareRef "g1")))))
+
+(deftest algebraicMoveFromCompactMove-test
+  (testing "Convert algebraic square to bit reference"
+    (is (= "a1h8" (algebraicMoveFromCompactMove 458808)))
+))
 
 (deftest boardFromFen-test (testing "Test conversion from FEN rank string into board data"
       (let [fen "6k1/6p1/1p2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b q g3 5 56"

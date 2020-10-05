@@ -58,7 +58,7 @@
 (defn algebraicMoveFromCompactMove [compactMove]
   (let [fromSquare (unsigned-bit-shift-right compactMove 16)
         toSquare (bit-and 63 compactMove)]
-    0
+    (str (algebraicSquareRefFromBitRef fromSquare) (algebraicSquareRefFromBitRef toSquare))
     )
   )
 

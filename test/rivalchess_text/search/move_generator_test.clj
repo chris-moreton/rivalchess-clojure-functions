@@ -28,7 +28,10 @@
       (is (= "0111110111111101101101101011111111111111111111111011111111111111" (bitString (allSquaresExceptFriendly position))))
       )))
 
-;(deftest movesToSquares-test
-;  (testing "Test creating a list of moves from a fromSquare and a list of toSquares"
-;    (is (= [1 1 1 1] (movesToSquares 11 [22 33 44])))
-;    ))
+(deftest movesToSquares-test
+  (testing "Test creating a list of moves from a fromSquare and a list of toSquares"
+    (is (= [(+ (bit-shift-left 11 16) 22)
+            (+ (bit-shift-left 11 16) 33)
+            (+ (bit-shift-left 11 16) 44)
+            ] (movesToSquares 11 [22 33 44])))
+    ))
