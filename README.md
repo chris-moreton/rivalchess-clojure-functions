@@ -2,6 +2,8 @@
 
 A Clojure implementation of the current Kotlin version of Rival Chess.
 
+This is a work in progress, just doing a few functions per day.
+
 ## Examples
 
     (sort (map algebraicMoveFromCompactMove 
