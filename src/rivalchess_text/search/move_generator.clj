@@ -67,5 +67,10 @@
                toSquares (bitRefList (bit-and (get KNIGHT_MOVES fromSquare) (allSquaresExceptFriendly position)))]
                (recur (rest fromSquares) (concat moves (movesToSquares fromSquare toSquares))))))))
 
+(defn kingMoves [position]
+  (let [kingSquare (Long/numberOfTrailingZeros (bitboardForMover position :king))
+        toSquares (bitRefList (bit-and (get KING_MOVES kingSquare) (allSquaresExceptFriendly position)))]
+      (movesToSquares kingSquare toSquares)))
+
 (defn moves [position]
   (knightMoves position))

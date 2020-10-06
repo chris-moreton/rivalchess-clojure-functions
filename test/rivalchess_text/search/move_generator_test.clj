@@ -47,3 +47,15 @@
              (into [] (sort (map algebraicMoveFromCompactMove (knightMoves position))))))
       )
     ))
+
+(deftest kingMoves-test
+  (testing "Test generating king moves"
+    (let [position (position "n5k1/6n1/1n2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b kQKq g3 5 56")]
+      (is (= ["g8f7" "g8f8" "g8h7" "g8h8"]
+             (into [] (sort (map algebraicMoveFromCompactMove (kingMoves position))))))
+      )
+    (let [position (position "n5k1/6n1/1n2q2p/1p5P/1P3RP1/2PK1B2/3rN3/8 w - - 0 1")]
+      (is (= ["d3c2" "d3c4" "d3d2" "d3d4" "d3e3" "d3e4"]
+             (into [] (sort (map algebraicMoveFromCompactMove (kingMoves position))))))
+      )
+    ))
