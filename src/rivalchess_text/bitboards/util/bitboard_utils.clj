@@ -136,6 +136,13 @@
 (def BLACKKINGSIDEROOKMASK (setBits [H8]))
 (def BLACKQUEENSIDEROOKMASK (setBits [A8]))
 
+(def CASTLEPRIV_WK 1)
+(def CASTLEPRIV_WQ 2)
+(def CASTLEPRIV_BK 4)
+(def CASTLEPRIV_BQ 8)
+(def CASTLEPRIV_BNONE (bit-and (bit-not CASTLEPRIV_BK) (bit-not CASTLEPRIV_BQ)))
+(def CASTLEPRIV_WNONE (bit-and (bit-not CASTLEPRIV_WK) (bit-not CASTLEPRIV_WQ)))
+
 (def DISTANCE_TO_H1_OR_A8 [0, 1, 2, 3, 4, 5, 6, 7,
                            1, 2, 3, 4, 5, 6, 7, 6,
                            2, 3, 4, 5, 6, 7, 6, 5,

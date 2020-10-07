@@ -22,10 +22,17 @@
     (is (= "0000000000000000000000000000000000000000000000000000000000001111" (bitString 15)))
     ))
 
-(deftest allSquaresExceptFriendly-test
+(deftest allPiecesExceptFriendlyBitboard-test
   (testing "Get a bitboard with all bits set except friendly pieces"
     (let [position (position "n5k1/6n1/1n2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b kQKq g3 5 56")]
-      (is (= "0111110111111101101101101011111111111111111111111011111111111111" (bitString (allSquaresExceptFriendly position))))
+      (is (= "0111110111111101101101101011111111111111111111111011111111111111"
+             (bitString (allPiecesExceptFriendlyBitboard position))))
+      )))
+
+(deftest allPiecesBitboard-test
+  (testing "Get a bitboard with all bits set except friendly pieces"
+    (let [position (position "n5k1/6n1/1n2q2p/1p5P/1P3RP1/2PK1B2/1r2N3/8 b kQKq g3 5 56")]
+      (is (= "1000001000000010010010010100000101000110001101000100100000000000" (bitString (allPiecesBitboard position))))
       )))
 
 (deftest movesToSquares-test
